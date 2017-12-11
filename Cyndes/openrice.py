@@ -91,12 +91,12 @@ for link in url_detail:
         data_add = data['address']
         address = data_add['streetAddress']+" "+data_add['addressLocality']+" "+data_add['addressRegion']+" "+data_add['postalCode']
         address_branch.append(address)
-        print address.encode("utf-8")
+        #print address.encode("utf-8")
 
         #Getting telephone
         telephone = data['telephone']
         telephone_branch.append(telephone)
-        print telephone.encode("utf-8")
+        #print telephone.encode("utf-8")
     else:
         address_branch.append("None")
         telephone_branch.append("None")
@@ -106,16 +106,16 @@ for link in url_detail:
     	if avail_facil.find('span', class_='or-sprite-inline-block d_sr2_lhs_tick_desktop'):
     		facilities.append(avail_facil.find('span', class_='condition-name').string)
     facility_branch.append(facilities)
-    print facilities
+    #print facilities
 
     rating = soup.find('div', class_='header-score-details-left-score', itemprop='ratingValue')
     if rating:
         rating_branch.append(rating.string.strip())
-        print rating.string.strip()
+        #print rating.string.strip()
     else:
         rating_branch.append('0')
 
-# print address_branch
-# print telephone_branch
-# print facility_branch
-# print rating_branch
+print address_branch
+print telephone_branch
+print facility_branch
+print rating_branch
