@@ -3,9 +3,6 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
-#with open("foody.html") as fp:
-#	soup = BeautifulSoup(fp, 'html.parser')
-
 def search_restaurant(query):
 	# For accessing openrice search
 	url = "www.foody.id/jakarta/places?q=" + restaurant + "&ss=header_search_form"
@@ -138,36 +135,61 @@ def see_details(query):
 	for facility in soup.find_all('a', style="float:left;padding:3px 0 0 5px;font-weight:bold;"):
 		facilities.append(facility.string)
 
-	# jenis restoran
-	category = ""
+	# info tambahan
+	waktu_makan = ""
+	pemesanan_terakhir = ""
+	waktu_tunggu = ""
+	libur = ""
+	kategori = ""
+	kapasitas = ""
+	petunjuk_arah = ""
 	for x in soup.find_all('div', class_="new-detail-info-area"):
-		tes = x.find('a', errorkeyname="Kategori")
-		if tes:
+		keyname = x.find('a', class_="resinfo-report").get('errorkeyname')
+		if keyname == 'Waktu Makan':
+			waktu_makan = x.find('span').string
+		elif keyname == 'Pemesanan terakhir':
+			pemesanan_terakhir = x.find('div', "").text.strip()
+		elif keyname == 'Waktu tunggu':
+			waktu_tunggu = x.find('span').string.strip()
+		elif keyname == 'Libur':
+			libur = x.find('span').string
+		elif keyname == 'Kategori':	
 			category = x.find('a').string
+		elif keyname == 'Kapasitas':
+			kapasitas = x.find('span').string
+		elif keyname == 'Petunjuk arah':
+			petunjuk_arah = x.find('b').string	
 
 	# description
 	description = ""
-	menu = ""
+	recommended_menu = ""
 	x = 1
 	for desc in soup.find('div', class_="special-content").find_all('li'):
 		if x == 3:
-			menu = desc.string
+			recommended_menu = desc.string
 		
 		description += desc.string + " "
 		x += 1
 
 	# recommended menu
-	#recommended_menu = re.search(':.*[^.]', menu).group(0)[2:] #ada yg ga pake ":"
+	if ":" in recommended_menu:
+		recommended_menu = re.search(':.*[^.]', recommended_menu).group(0)[2:] #ada yg ga pake ":"
 
 	print "Nama Restoran: " + name 
 	print "Alamat: " + location
 	print "Average Cost: " + str(avg_cost)
 	print "Rating: " + str(avg_rating)
 	print "Fasilitas: " + str(facilities)
+	print "Jam Operasional: " + waktu_makan
+	print "Pemesanan Terakhir: " + pemesanan_terakhir
+	print "Waktu Tunggu: " + waktu_tunggu
+	print "Libur: " + libur
 	print "Kategori: " + category
+	print "Kapasitas: " + kapasitas
+	print "Petunjuk Arah: " + petunjuk_arah
 	print "Deskripsi: " + description
-	#print "Rekomendasi Menu: " + recommended_menu
+	print "Rekomendasi Menu: " + recommended_menu
 
 restaurant = raw_input("Restaurants you want to find? ")
-print search_restaurant(restaurant)
-#see_details(restaurant)
+#print search_restaurant(restaurant)
+see_details(restaurant)
