@@ -1,3 +1,4 @@
+import json
 import re
 import requests
 from bs4 import BeautifulSoup
@@ -16,41 +17,79 @@ def search_restaurant(query):
 	url = "www.foody.id"
 
 	search_results = {}
-	details = {}
+ 	details = {}
 
 	for food in soup.find_all('div', class_="row-view-right"):
 		name = food.find('a').string.strip()
 		
 		if "Brand" in name:
-			alamat = "huaaah"
 			url += food.find('a').get('href')
 			r = requests.get("http://"+url, headers=headers)
 			soup = BeautifulSoup(r.text, 'html.parser')
+			
+			tes = soup.find_all('script', type="text/javascript")[11].renderContents()
+			tes = re.search('{.*};', tes).group(0)
+			data = json.loads(tes[0:len(str(tes))-1])
+			
+			for item in data['Items']:
+				name = item['Name']
+				alamat = item['Address']
+				rating = item['AvgRatingText']
+				review = item['TotalReviews']
+				fixed_name = re.search('(.*) - ', name).group(1) + " - " + alamat
 
-			#to do ubah json jadi data, rating dan review adanya di json nya
+				details["rating"] = rating
+				details["review"] = review
+				details["alamat"] = alamat
+
+				search_results[fixed_name] = details 
+
+				print "Nama Restoran: " + name
+				print "Nama Restoran Fixed: " + fixed_name
+				print "Rating: " + str(rating)
+				print "Jumlah Review: " + str(review)
+				print "Alamat: " + alamat
+				print
 		elif " - " in name:
-			name = re.search('(.*) - ', name).group(1)
 			alamat = food.find('span', "").find('span', "").string
+			rating = food.find('div', class_="point highlight-text")
+			if rating:
+				rating = rating.string.strip()
+			review = food.find('a', href="javascript:void(0)").find('span', "").string
+			fixed_name = re.search('(.*) - ', name).group(1) + " - " + alamat
+
+			details["rating"] = rating
+			details["review"] = review
+			details["alamat"] = alamat
+
+			search_results[fixed_name] = details 
+
+			print "Nama Restoran: " + name
+			print "Nama Restoran Fixed: " + fixed_name
+			print "Rating: " + str(rating)
+			print "Jumlah Review: " + review
+			print "Alamat: " + alamat
+			print
 		else:
 			alamat = food.find('span', "").find('span', "").string
+			rating = food.find('div', class_="point highlight-text")
+			if rating:
+				rating = rating.string.strip()
+			review = food.find('a', href="javascript:void(0)").find('span', "").string
+			fixed_name = name + " - " + alamat
 
-		rating = food.find('div', class_="point highlight-text")
-		if rating:
-			rating = rating.string.strip()
-		
-		review = food.find('a', href="javascript:void(0)").find('span', "").string
-		
-		details["rating"] = rating
-		details["review"] = review
-		details["alamat"] = alamat
+			details["rating"] = rating
+			details["review"] = review
+			details["alamat"] = alamat
 
-		search_results[name+" - "+alamat] = details 
+			search_results[fixed_name] = details 
 
-		print "Nama Restoran: " + name
-		print "Rating: " + str(rating)
-		print "Jumlah Review: " + review
-		print "Alamat: " + alamat
-		print
+			print "Nama Restoran: " + name
+			print "Nama Restoran Fixed: " + fixed_name
+			print "Rating: " + str(rating)
+			print "Jumlah Review: " + review
+			print "Alamat: " + alamat
+			print
 
 	return search_results
 
@@ -130,5 +169,5 @@ def see_details(query):
 	#print "Rekomendasi Menu: " + recommended_menu
 
 restaurant = raw_input("Restaurants you want to find? ")
-#print search_restaurant(restaurant)
-see_details(restaurant)
+print search_restaurant(restaurant)
+#see_details(restaurant)
