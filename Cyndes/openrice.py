@@ -127,15 +127,11 @@ def detail_query(name):
 
     facilities = []
     for avail_facil in soup.find_all('div', class_='condition-item'):
-    	if avail_facil.find('span', class_='or-sprite-inline-block d_sr2_lhs_tick_desktop'):
-    		facilities.append(avail_facil.find('span', class_='condition-name').string)
+        if avail_facil.find('span', class_='or-sprite-inline-block d_sr2_lhs_tick_desktop'):
+            facilities.append(avail_facil.find('span', class_='condition-name').string)
     print facilities
 
     rating = soup.find('div', class_='header-score-details-left-score', itemprop='ratingValue')
     print rating
-
-# print address_branch
-# print telephone_branch
-# print facility_branch
-# print rating_branch
+    
 print search_result(restaurant)
