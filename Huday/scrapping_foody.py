@@ -33,7 +33,11 @@ def search_restaurant(query):
 				alamat = item['Address']
 				rating = item['AvgRatingText']
 				review = item['TotalReviews']
-				fixed_name = re.search('(.*) - ', name).group(1) + " - " + alamat
+				# ambil alamat sampe koma aja
+				fixed_alamat = re.sub(',.*', "", alamat)
+				# ilangin kata "mall"
+				fixed_alamat = re.sub('Mall | Mall|mall | mall', "", fixed_alamat)
+				fixed_name = re.sub(' -.*', "", name) + " - " + fixed_alamat
 
 				details["rating"] = rating
 				details["review"] = review
@@ -53,8 +57,13 @@ def search_restaurant(query):
 			if rating:
 				rating = rating.string.strip()
 			review = food.find('a', href="javascript:void(0)").find('span', "").string
-			fixed_name = re.search('(.*) - ', name).group(1) + " - " + alamat
+			# ambil alamat sampe koma aja
+			fixed_alamat = re.sub(',.*', "", alamat)
+			# ilangin kata "mall"
+			fixed_alamat = re.sub('Mall | Mall|mall | mall', "", fixed_alamat)
+			fixed_name = re.sub(' -.*', "", name) + " - " + fixed_alamat
 
+			details['foody_name'] = name
 			details["rating"] = rating
 			details["review"] = review
 			details["alamat"] = alamat
@@ -73,7 +82,11 @@ def search_restaurant(query):
 			if rating:
 				rating = rating.string.strip()
 			review = food.find('a', href="javascript:void(0)").find('span', "").string
-			fixed_name = name + " - " + alamat
+			# ambil alamat sampe koma aja
+			fixed_alamat = re.sub(',.*', "", alamat)
+			# ilangin kata "mall"
+			fixed_alamat = re.sub('Mall | Mall|mall | mall', "", fixed_alamat)
+			fixed_name = name + " - " + fixed_alamat
 
 			details["rating"] = rating
 			details["review"] = review
@@ -160,7 +173,7 @@ def see_details(query):
 		elif keyname == 'Petunjuk arah':
 			petunjuk_arah = x.find('b').string	
 
-	# description
+	# description and recommended menu
 	description = ""
 	recommended_menu = ""
 	x = 1
@@ -171,7 +184,6 @@ def see_details(query):
 		description += desc.string + " "
 		x += 1
 
-	# recommended menu
 	if ":" in recommended_menu:
 		recommended_menu = re.search(':.*[^.]', recommended_menu).group(0)[2:] #ada yg ga pake ":"
 
@@ -191,5 +203,5 @@ def see_details(query):
 	print "Rekomendasi Menu: " + recommended_menu
 
 restaurant = raw_input("Restaurants you want to find? ")
-#print search_restaurant(restaurant)
-see_details(restaurant)
+print search_restaurant(restaurant)
+#see_details(restaurant)
