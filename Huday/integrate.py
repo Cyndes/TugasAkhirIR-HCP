@@ -95,28 +95,35 @@ def integrate(query):
 	result = lovely_dummy_zomato
 	for key,value in lovely_dummy_openrice.items():
 		if key in result.keys():
+			result[key]['no_of_occurences'] = 2
 			result[key]['rating'] += value['rating']
-			result[key]['review'] += value['review']
+			result[key]['review'] += value['review'] 
 		else:
 			result[key] = value
+			result[key]['no_of_occurences'] = 1
 
 	for key,value in lovely_dummy_foody.items():
 		if key in result.keys():
+			result[key]['no_of_occurences'] += 1
 			result[key]['rating'] += value['rating']
 			result[key]['review'] += value['review']
 			result[key]['foody_name'] = value['foody_name']
 		else:
 			result[key] = value
+			result[key]['no_of_occurences'] = 1
 
 	for key,value in lovely_dummy_pergikuliner.items():
 		if key in result.keys():
+			result[key]['no_of_occurences'] += 1
 			result[key]['rating'] += value['rating']
+			result[key]['rating'] /= result[key]['no_of_occurences']
 			result[key]['review'] += value['review']
 		else:
 			result[key] = value
+			result[key]['no_of_occurences'] = 1
 
 	for key in result:
-		result[key]['score'] = (0.4 * (result[key]['rating'] / 4.0)) + (0.6 * result[key]['review'])
+		result[key]['score'] = (0.4 * result[key]['rating']) + (0.6 * result[key]['review'])
 
 	print result
 
