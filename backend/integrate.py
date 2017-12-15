@@ -1,17 +1,17 @@
-from scrappingzomato import *
-from scrappingopenrice import *
-from scrappingfoody import *
-from scrappingpergikuliner import *
+from scrapingzomato import *
+from scrapingopenrice import *
+from scrapingfoody import *
+from scrapingpergikuliner import *
 
 def integrate(query):
 	# panggil search zomato
-	#result_zomato = scrappingzomato.seach_restaurant(query)
+	#result_zomato = scrapingzomato.seach_restaurant(query)
 	# panggil search openrice
-	result_openrice = scrappingopenrice.seach_restaurant(query)
+	result_openrice = scrapingopenrice.seach_restaurant(query)
 	# panggil search foody
-	result_foody = scrappingfoody.seach_restaurant(query)
+	result_foody = scrapingfoody.seach_restaurant(query)
 	# panggil search pergikuliner
-	result_pergikuliner = scrappingpergikuliner.seach_restaurant(query)
+	result_pergikuliner = scrapingpergikuliner.seach_restaurant(query)
 
 	result = result_zomato
 	for key,value in result_openrice.items():
