@@ -37,7 +37,7 @@ def search_restaurant(query):
 			alamat = ", ".join([Alamat.get_text().encode("utf-8").strip() for Alamat in data.find('p', class_="clearfix").find_all('span', class_='truncate')])
 			rating = float(rat.get_text().strip().split('/')[0])
 			details['alamat'] = alamat
-			details['rating'] = rating
+			details['rating'] = round(rating * 2, 2)
 			search_result[name + " - " + re.sub('Mall | Mall|mall | mall', "", alamat.split(",")[0])] = details
 		count += 1
 	return search_result
