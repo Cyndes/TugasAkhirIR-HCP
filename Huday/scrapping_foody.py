@@ -1,9 +1,7 @@
+import json
 import re
 import requests
 from bs4 import BeautifulSoup
-
-#with open("foody.html") as fp:
-#	soup = BeautifulSoup(fp, 'html.parser')
 
 def search_restaurant(query):
 	# For accessing openrice search
@@ -16,41 +14,92 @@ def search_restaurant(query):
 	url = "www.foody.id"
 
 	search_results = {}
-	details = {}
+ 	details = {}
 
 	for food in soup.find_all('div', class_="row-view-right"):
 		name = food.find('a').string.strip()
 		
 		if "Brand" in name:
-			alamat = "huaaah"
 			url += food.find('a').get('href')
 			r = requests.get("http://"+url, headers=headers)
 			soup = BeautifulSoup(r.text, 'html.parser')
+			
+			tes = soup.find_all('script', type="text/javascript")[11].renderContents()
+			tes = re.search('{.*};', tes).group(0)
+			data = json.loads(tes[0:len(str(tes))-1])
+			
+			for item in data['Items']:
+				name = item['Name']
+				alamat = item['Address']
+				rating = item['AvgRatingText']
+				review = item['TotalReviews']
+				# ambil alamat sampe koma aja
+				fixed_alamat = re.sub(',.*', "", alamat)
+				# ilangin kata "mall"
+				fixed_alamat = re.sub('Mall | Mall|mall | mall', "", fixed_alamat)
+				fixed_name = re.sub(' -.*', "", name) + " - " + fixed_alamat
 
-			#to do ubah json jadi data, rating dan review adanya di json nya
+				details["rating"] = rating
+				details["review"] = review
+				details["alamat"] = alamat
+
+				search_results[fixed_name] = details 
+
+				print "Nama Restoran: " + name
+				print "Nama Restoran Fixed: " + fixed_name
+				print "Rating: " + str(rating)
+				print "Jumlah Review: " + str(review)
+				print "Alamat: " + alamat
+				print
 		elif " - " in name:
-			name = re.search('(.*) - ', name).group(1)
 			alamat = food.find('span', "").find('span', "").string
+			rating = food.find('div', class_="point highlight-text")
+			if rating:
+				rating = rating.string.strip()
+			review = food.find('a', href="javascript:void(0)").find('span', "").string
+			# ambil alamat sampe koma aja
+			fixed_alamat = re.sub(',.*', "", alamat)
+			# ilangin kata "mall"
+			fixed_alamat = re.sub('Mall | Mall|mall | mall', "", fixed_alamat)
+			fixed_name = re.sub(' -.*', "", name) + " - " + fixed_alamat
+
+			details['foody_name'] = name
+			details["rating"] = rating
+			details["review"] = review
+			details["alamat"] = alamat
+
+			search_results[fixed_name] = details 
+
+			print "Nama Restoran: " + name
+			print "Nama Restoran Fixed: " + fixed_name
+			print "Rating: " + str(rating)
+			print "Jumlah Review: " + review
+			print "Alamat: " + alamat
+			print
 		else:
 			alamat = food.find('span', "").find('span', "").string
+			rating = food.find('div', class_="point highlight-text")
+			if rating:
+				rating = rating.string.strip()
+			review = food.find('a', href="javascript:void(0)").find('span', "").string
+			# ambil alamat sampe koma aja
+			fixed_alamat = re.sub(',.*', "", alamat)
+			# ilangin kata "mall"
+			fixed_alamat = re.sub('Mall | Mall|mall | mall', "", fixed_alamat)
+			fixed_name = name + " - " + fixed_alamat
 
-		rating = food.find('div', class_="point highlight-text")
-		if rating:
-			rating = rating.string.strip()
-		
-		review = food.find('a', href="javascript:void(0)").find('span', "").string
-		
-		details["rating"] = rating
-		details["review"] = review
-		details["alamat"] = alamat
+			details["rating"] = rating
+			details["review"] = review
+			details["alamat"] = alamat
 
-		search_results[name+" - "+alamat] = details 
+			search_results[fixed_name] = details 
 
-		print "Nama Restoran: " + name
-		print "Rating: " + str(rating)
-		print "Jumlah Review: " + review
-		print "Alamat: " + alamat
-		print
+			print "Nama Restoran: " + name
+			print "Nama Restoran Fixed: " + fixed_name
+			print "Rating: " + str(rating)
+			print "Jumlah Review: " + review
+			print "Alamat: " + alamat
+			print
 
 	return search_results
 
@@ -99,36 +148,60 @@ def see_details(query):
 	for facility in soup.find_all('a', style="float:left;padding:3px 0 0 5px;font-weight:bold;"):
 		facilities.append(facility.string)
 
-	# jenis restoran
-	category = ""
+	# info tambahan
+	waktu_makan = ""
+	pemesanan_terakhir = ""
+	waktu_tunggu = ""
+	libur = ""
+	kategori = ""
+	kapasitas = ""
+	petunjuk_arah = ""
 	for x in soup.find_all('div', class_="new-detail-info-area"):
-		tes = x.find('a', errorkeyname="Kategori")
-		if tes:
+		keyname = x.find('a', class_="resinfo-report").get('errorkeyname')
+		if keyname == 'Waktu Makan':
+			waktu_makan = x.find('span').string
+		elif keyname == 'Pemesanan terakhir':
+			pemesanan_terakhir = x.find('div', "").text.strip()
+		elif keyname == 'Waktu tunggu':
+			waktu_tunggu = x.find('span').string.strip()
+		elif keyname == 'Libur':
+			libur = x.find('span').string
+		elif keyname == 'Kategori':	
 			category = x.find('a').string
+		elif keyname == 'Kapasitas':
+			kapasitas = x.find('span').string
+		elif keyname == 'Petunjuk arah':
+			petunjuk_arah = x.find('b').string	
 
-	# description
+	# description and recommended menu
 	description = ""
-	menu = ""
+	recommended_menu = ""
 	x = 1
 	for desc in soup.find('div', class_="special-content").find_all('li'):
 		if x == 3:
-			menu = desc.string
+			recommended_menu = desc.string
 		
 		description += desc.string + " "
 		x += 1
 
-	# recommended menu
-	#recommended_menu = re.search(':.*[^.]', menu).group(0)[2:] #ada yg ga pake ":"
+	if ":" in recommended_menu:
+		recommended_menu = re.search(':.*[^.]', recommended_menu).group(0)[2:] #ada yg ga pake ":"
 
 	print "Nama Restoran: " + name 
 	print "Alamat: " + location
 	print "Average Cost: " + str(avg_cost)
 	print "Rating: " + str(avg_rating)
 	print "Fasilitas: " + str(facilities)
+	print "Jam Operasional: " + waktu_makan
+	print "Pemesanan Terakhir: " + pemesanan_terakhir
+	print "Waktu Tunggu: " + waktu_tunggu
+	print "Libur: " + libur
 	print "Kategori: " + category
+	print "Kapasitas: " + kapasitas
+	print "Petunjuk Arah: " + petunjuk_arah
 	print "Deskripsi: " + description
-	#print "Rekomendasi Menu: " + recommended_menu
+	print "Rekomendasi Menu: " + recommended_menu
 
 restaurant = raw_input("Restaurants you want to find? ")
-#print search_restaurant(restaurant)
-see_details(restaurant)
+print search_restaurant(restaurant)
+#see_details(restaurant)
