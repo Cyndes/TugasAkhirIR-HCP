@@ -3,9 +3,9 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
-def search_restaurant(query):
+def search_foody(query):
 	# For accessing openrice search
-	url = "www.foody.id/jakarta/places?q=" + restaurant + "&ss=header_search_form"
+	url = "www.foody.id/jakarta/places?q=" + query + "&ss=header_search_form"
 	headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 6.0; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0' }
 	r = requests.get("http://" + url, headers=headers)
 	search = r.text
@@ -39,18 +39,21 @@ def search_restaurant(query):
 				fixed_alamat = re.sub('Mall | Mall|mall | mall', "", fixed_alamat)
 				fixed_name = re.sub(' -.*', "", name) + " - " + fixed_alamat
 
-				details["rating"] = rating
+				if rating:
+					details["rating"] = float(rating)
+				else:
+					details["rating"] = 0
 				details["review"] = review
 				details["alamat"] = alamat
 
 				search_results[fixed_name] = details 
 
-				print "Nama Restoran: " + name
-				print "Nama Restoran Fixed: " + fixed_name
-				print "Rating: " + str(rating)
-				print "Jumlah Review: " + str(review)
-				print "Alamat: " + alamat
-				print
+				# print "Nama Restoran: " + name
+				# print "Nama Restoran Fixed: " + fixed_name
+				# print "Rating: " + str(rating)
+				# print "Jumlah Review: " + str(review)
+				# print "Alamat: " + alamat
+				# print
 		elif " - " in name:
 			alamat = food.find('span', "").find('span', "").string
 			rating = food.find('div', class_="point highlight-text")
@@ -64,18 +67,21 @@ def search_restaurant(query):
 			fixed_name = re.sub(' -.*', "", name) + " - " + fixed_alamat
 
 			details['foody_name'] = name
-			details["rating"] = rating
+			if rating:
+				details["rating"] = float(rating)
+			else:
+				details["rating"] = 0
 			details["review"] = review
 			details["alamat"] = alamat
 
 			search_results[fixed_name] = details 
 
-			print "Nama Restoran: " + name
-			print "Nama Restoran Fixed: " + fixed_name
-			print "Rating: " + str(rating)
-			print "Jumlah Review: " + review
-			print "Alamat: " + alamat
-			print
+			# print "Nama Restoran: " + name
+			# print "Nama Restoran Fixed: " + fixed_name
+			# print "Rating: " + str(rating)
+			# print "Jumlah Review: " + review
+			# print "Alamat: " + alamat
+			# print
 		else:
 			alamat = food.find('span', "").find('span', "").string
 			rating = food.find('div', class_="point highlight-text")
@@ -88,18 +94,21 @@ def search_restaurant(query):
 			fixed_alamat = re.sub('Mall | Mall|mall | mall', "", fixed_alamat)
 			fixed_name = name + " - " + fixed_alamat
 
-			details["rating"] = rating
+			if rating:
+				details["rating"] = float(rating)
+			else:
+				details["rating"] = 0
 			details["review"] = review
 			details["alamat"] = alamat
 
 			search_results[fixed_name] = details 
 
-			print "Nama Restoran: " + name
-			print "Nama Restoran Fixed: " + fixed_name
-			print "Rating: " + str(rating)
-			print "Jumlah Review: " + review
-			print "Alamat: " + alamat
-			print
+			# print "Nama Restoran: " + name
+			# print "Nama Restoran Fixed: " + fixed_name
+			# print "Rating: " + str(rating)
+			# print "Jumlah Review: " + review
+			# print "Alamat: " + alamat
+			# print
 
 	return search_results
 
@@ -202,6 +211,6 @@ def see_details(query):
 	print "Deskripsi: " + description
 	print "Rekomendasi Menu: " + recommended_menu
 
-restaurant = raw_input("Restaurants you want to find? ")
-print search_restaurant(restaurant)
+#restaurant = raw_input("Restaurants you want to find? ")
+#print search_restaurant(restaurant)
 #see_details(restaurant)

@@ -2,12 +2,12 @@ import json
 import re
 import requests
 from bs4 import BeautifulSoup
-restaurant = raw_input("Restaurants you want to find? ")
+#restaurant = raw_input("Restaurants you want to find? ")
 
 
-def search_restaurant(query):
+def search_openrice(query):
     # For accessing openrice search
-    url = "id.openrice.com/en/jakarta/restaurants?what="+restaurant
+    url = "id.openrice.com/en/jakarta/restaurants?what="+query
     headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 6.0; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0' }
     r = requests.get("http://" +url, headers=headers)
     search = r.text
@@ -23,7 +23,7 @@ def search_restaurant(query):
     search_result = {}
     count = 1
     while count <= page:
-        url = "id.openrice.com/en/jakarta/restaurants?what="+restaurant+"&page="+str(count)
+        url = "id.openrice.com/en/jakarta/restaurants?what="+query+"&page="+str(count)
         r = requests.get("http://" +url, headers=headers)
         search = r.text
         soup = BeautifulSoup(search, 'html.parser')
@@ -135,4 +135,4 @@ def see_details(name):
     rating = soup.find('div', class_='header-score-details-left-score', itemprop='ratingValue')
     print rating
     
-print search_restaurant(restaurant)
+#print search_restaurant(restaurant)

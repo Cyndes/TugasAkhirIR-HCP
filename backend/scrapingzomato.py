@@ -7,11 +7,11 @@ import string
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
-r_input = raw_input("masukkan nama restoran: ")
-r_name = string.replace(r_input, ' ', '%20')
+# r_input = raw_input("masukkan nama restoran: ")
+# r_name = string.replace(r_input, ' ', '%20')
 
-def search_restaurant(query):
-	url = ("https://developers.zomato.com/api/v2.1/search?entity_id=74&q={}".format(r_name))
+def search_zomato(query):
+	url = ("https://developers.zomato.com/api/v2.1/search?entity_id=74&q={}".format(query))
 	headers = {"User-agent": "curl/7.43.0", "Accept": "application/json", "user_key": "6b2034187f3b4f96d476acff22f5bd49"}
 	page = requests.get(url, headers=headers)
 	restolist = json.loads(page.text)
@@ -41,7 +41,7 @@ def see_details(name):
 
 #content = page.text
 #soup = BeautifulSoup(content, 'html.parser')
-print search_restaurant(r_name)
+#print search_restaurant(r_name)
 
 
 #print(soup.prettify())

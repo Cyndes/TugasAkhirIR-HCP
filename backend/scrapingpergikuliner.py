@@ -7,14 +7,14 @@ import re
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
-r_input = raw_input("masukkan nama restoran: ")
+#r_input = raw_input("masukkan nama restoran: ")
 #r_input = "holycow steak"
-if len(r_input.split()) > 1:
-	r_name = string.replace(r_input, ' ', '+')
-else:
-	r_name = r_input
+# if len(r_input.split()) > 1:
+# 	r_name = string.replace(r_input, ' ', '+')
+# else:
+# 	r_name = r_input
 
-def search_restaurant(query):
+def search_pergikuliner(query):
 	tmpurl = ("https://pergikuliner.com/restaurants?utf8=✓&search_place=&default_search=&search_name_cuisine={}".format(query))
 	headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 6.0; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0' }
 	tmppage = requests.get(tmpurl, headers=headers)
@@ -38,6 +38,7 @@ def search_restaurant(query):
 			rating = float(rat.get_text().strip().split('/')[0])
 			details['alamat'] = alamat
 			details['rating'] = round(rating * 2, 2)
+			details['review'] = 0
 			search_result[name + " - " + re.sub('Mall | Mall|mall | mall', "", alamat.split(",")[0])] = details
 		count += 1
 	return search_result
@@ -118,4 +119,4 @@ def see_details(name):
 	print "list of restaurants related to " + r_input + " based on cuisine:";
 	for rl2 in restolists2:
 		print rl2.find("a").string + " " + rl2.find_all("div")[1].string.strip();
-print search_restaurant(r_name)
+# print search_restaurant(r_name)
