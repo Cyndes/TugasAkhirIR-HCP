@@ -60,6 +60,7 @@ def integrate(query):
 	od = OrderedDict(sorted(result.items(), key=lambda x: x[1]['score'], reverse=True))
 	return od
 
+
 def details(name, foody_name):
 	# panggil search zomato
 	details_zomato = see_details_zomato(name)
