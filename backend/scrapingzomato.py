@@ -27,8 +27,8 @@ def search_zomato(query):
 	return search_result
 
 
-def see_details(name):
-	url = ("https://developers.zomato.com/api/v2.1/search?entity_id=74&q={}".format(r_name))
+def see_details_zomato(name):
+	url = ("https://developers.zomato.com/api/v2.1/search?entity_id=74&q={}".format(name))
 
 	headers = {"User-agent": "curl/7.43.0", "Accept": "application/json", "user_key": "6b2034187f3b4f96d476acff22f5bd49"}
 
@@ -36,8 +36,10 @@ def see_details(name):
 	restolist = json.loads(page.text)
 	data = restolist["restaurants"]
 
-	for i in range(0, 20):
-		print data[i]["restaurant"]["name"] + " " + data[i]["restaurant"]["location"]["locality"] + " || rating: " + data[i]["restaurant"]["user_rating"]["aggregate_rating"];
+	#for i in range(0, 20):
+	#	print data[i]["restaurant"]["name"] + " " + data[i]["restaurant"]["location"]["locality"] + " || rating: " + data[i]["restaurant"]["user_rating"]["aggregate_rating"];
+
+	return data
 
 #content = page.text
 #soup = BeautifulSoup(content, 'html.parser')

@@ -51,7 +51,7 @@ def search_pergikuliner(query):
 	return search_result
 
 
-def see_details(name):	
+def see_details_pergikuliner(name):	
 	#print "inputnya sekarang jadi " + r_name
 	#url = "https://pergikuliner.com/restaurants?utf8=✓&search_place=&default_search=Jakarta&search_name_cuisine=cafe"
 	tmpurl = ("https://pergikuliner.com/restaurants?utf8=✓&search_place=&default_search=&search_name_cuisine={}".format(r_name))

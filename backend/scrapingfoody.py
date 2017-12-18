@@ -121,8 +121,8 @@ def search_foody(query):
 
 	return search_results
 
-def see_details(query):
-	url = "www.foody.id/jakarta/places?q=" + restaurant + "&ss=header_search_form"
+def see_details_foody(name):
+	url = "www.foody.id/jakarta/places?q=" + name + "&ss=header_search_form"
 	headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 6.0; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0' }
 	r = requests.get("http://" + url, headers=headers)
 	search = r.text

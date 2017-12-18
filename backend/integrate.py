@@ -2,6 +2,10 @@ from scrapingzomato import search_zomato
 from scrapingopenrice import search_openrice
 from scrapingfoody import search_foody
 from scrapingpergikuliner import search_pergikuliner
+from scrapingzomato import see_details_zomato
+from scrapingopenrice import see_details_openrice
+from scrapingfoody import see_details_foody
+from scrapingpergikuliner import see_details_pergikuliner
 from collections import OrderedDict
 
 def integrate(query):
@@ -56,5 +60,30 @@ def integrate(query):
 	od = OrderedDict(sorted(result.items(), key=lambda x: x[1]['score'], reverse=True))
 	return od
 
-# restaurant = raw_input("Restaurants you want to find? ")
-# integrate(restaurant)
+def details(restaurant):
+	# panggil search zomato
+	details_zomato = see_details_zomato(restaurant['name'])
+	# panggil search openrice
+	details_openrice = see_details_openrice(restaurant['name'])
+	# panggil search foody
+	details_foody = see_details_foody(restaurant['foody_name'])
+	# panggil search pergikuliner
+	details_pergikuliner = see_details_pergikuliner(restaurant['name'])
+
+	print "details_zomato"
+	print details_zomato
+	print
+	print "details_openrice"
+	print details_openrice
+	print
+	print "details_foody"
+	print details_foody
+	print
+	print "details_pergikuliner"
+	print details_pergikuliner
+	print	
+
+query = raw_input("Restaurants you want to find? ")
+# integrate(query)
+restaurant = {"name" : "kfc lenteng agung", "foody_name" : "KFC - Lenteng Agung", "alamat" : "Jl. Lenteng Agung, No. 23"}
+details(restaurant)

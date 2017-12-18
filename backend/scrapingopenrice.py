@@ -63,7 +63,7 @@ def search_openrice(query):
         count = count + 1
     return search_result
 
-def see_details(name):
+def see_details_openrice(name, location):
     # For accessing openrice detail from search hit
     name = name.split('-')
     url = "id.openrice.com/en/jakarta/restaurants?what="+name[0].strip()+"&where="+name[1].strip()
