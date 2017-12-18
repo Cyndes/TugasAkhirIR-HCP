@@ -13,7 +13,7 @@ def search():
 	restaurant = request.args.get('restaurant', None)
 	response = integrate(restaurant)
 	
-	return render_template("search.html", result=response) 
+	return render_template("search.html", result=response, resto=restaurant) 
 
 if __name__ == "__main__":
 	app.run()
