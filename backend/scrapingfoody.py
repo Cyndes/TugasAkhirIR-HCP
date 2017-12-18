@@ -200,8 +200,8 @@ def see_details_foody(name):
 	foody_details = {}
 	foody_details["name"] = name
 	foody_details["address"] = location
-	foody_details["rating_foody"] = avg_rating
-	foody_details["review_foody"] = review
+	foody_details["rating"] = avg_rating
+	foody_details["review"] = review
 	foody_details["avg_cost"] = avg_cost
 	foody_details["facilities"] = facilities
 	foody_details["waktu_makan"] = waktu_makan
