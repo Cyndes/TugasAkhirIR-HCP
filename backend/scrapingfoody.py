@@ -33,6 +33,7 @@ def search_foody(query):
 				alamat = item['Address']
 				rating = item['AvgRatingText']
 				review = item['TotalReviews']
+				image = item['PhotoUrl']
 				# ambil alamat sampe koma aja
 				fixed_alamat = re.sub(',.*', "", alamat)
 				# ilangin kata "mall"
@@ -48,18 +49,14 @@ def search_foody(query):
 				else:
 					details["review"] = 0				
 				details["alamat"] = alamat
+				details["image"] = image
 
 				search_results[fixed_name] = details 
-
-				# print "Nama Restoran: " + name
-				# print "Nama Restoran Fixed: " + fixed_name
-				# print "Rating: " + str(rating)
-				# print "Jumlah Review: " + str(review)
-				# print "Alamat: " + alamat
-				# print
 		elif " - " in name:
 			alamat = food.find('span', "").find('span', "").string
 			rating = food.find('div', class_="point highlight-text")
+			image = food.findPreviousSiblings()[0].find("img").get("src")
+			
 			if rating:
 				rating = rating.string.strip()
 			review = food.find('a', href="javascript:void(0)").find('span', "").string
@@ -79,17 +76,12 @@ def search_foody(query):
 			else:
 				details["review"] = 0
 			details["alamat"] = alamat
+			details["image"] = image
 
 			search_results[fixed_name] = details 
-
-			# print "Nama Restoran: " + name
-			# print "Nama Restoran Fixed: " + fixed_name
-			# print "Rating: " + str(rating)
-			# print "Jumlah Review: " + review
-			# print "Alamat: " + alamat
-			# print
 		else:
 			alamat = food.find('span', "").find('span', "").string
+			image = food.findPreviousSiblings()[0].find("img").get("src")
 			rating = food.find('div', class_="point highlight-text")
 			if rating:
 				rating = rating.string.strip()
@@ -111,14 +103,6 @@ def search_foody(query):
 			details["alamat"] = alamat
 
 			search_results[fixed_name] = details 
-
-			# print "Nama Restoran: " + name
-			# print "Nama Restoran Fixed: " + fixed_name
-			# print "Rating: " + str(rating)
-			# print "Jumlah Review: " + review
-			# print "Alamat: " + alamat
-			# print
-
 	return search_results
 
 def see_details_foody(name):
@@ -132,7 +116,6 @@ def see_details_foody(name):
 
 	# Taking static data from the first result
 	url += soup.find('h2').find('a').get('href')
-	print url
 	r = requests.get("http://"+url, headers=headers)
 	soup = BeautifulSoup(r.text, 'html.parser')
 
@@ -205,21 +188,37 @@ def see_details_foody(name):
 	if ":" in recommended_menu:
 		recommended_menu = re.search(':.*[^.]', recommended_menu).group(0)[2:] #ada yg ga pake ":"
 
-	print "Nama Restoran: " + name 
-	print "Alamat: " + location
-	print "Average Cost: " + str(avg_cost)
-	print "Rating: " + str(avg_rating)
-	print "Fasilitas: " + str(facilities)
-	print "Jam Operasional: " + waktu_makan
-	print "Pemesanan Terakhir: " + pemesanan_terakhir
-	print "Waktu Tunggu: " + waktu_tunggu
-	print "Libur: " + libur
-	print "Kategori: " + category
-	print "Kapasitas: " + kapasitas
-	print "Petunjuk Arah: " + petunjuk_arah
-	print "Deskripsi: " + description
-	print "Rekomendasi Menu: " + recommended_menu
+	foody_details = {}
+	foody_details["name"] = name
+	foody_details["address"] = location
+	foody_details["avg_cost"] = avg_cost
+	foody_details["facilities"] = facilities
+	foody_details["waktu_makan"] = waktu_makan
+	foody_details["pemesanan_terakhir"] = pemesanan_terakhir
+	foody_details["waktu_tunggu"] = waktu_tunggu
+	foody_details["libur"] = libur
+	foody_details["category"] = category
+	foody_details["kapasitas"] = kapasitas
+	foody_details["petunjuk_arah"] = petunjuk_arah
+	foody_details["description"] = description
+	foody_details["recommended_menu"] = recommended_menu
+
+	# print "Nama Restoran: " + name 
+	# print "Alamat: " + location
+	# print "Average Cost: " + str(avg_cost)
+	# print "Rating: " + str(avg_rating)
+	# print "Fasilitas: " + str(facilities)
+	# print "Jam Operasional: " + waktu_makan
+	# print "Pemesanan Terakhir: " + pemesanan_terakhir
+	# print "Waktu Tunggu: " + waktu_tunggu
+	# print "Libur: " + libur
+	# print "Kategori: " + category
+	# print "Kapasitas: " + kapasitas
+	# print "Petunjuk Arah: " + petunjuk_arah
+	# print "Deskripsi: " + description
+	# print "Rekomendasi Menu: " + recommended_menu
+	return foody_details
 
 #restaurant = raw_input("Restaurants you want to find? ")
-#print search_restaurant(restaurant)
-#see_details(restaurant)
+#search_foody(restaurant)
+#see_details_foody(restaurant)

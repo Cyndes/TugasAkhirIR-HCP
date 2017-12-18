@@ -61,6 +61,7 @@ def integrate(query):
 	return od
 
 def details(restaurant):
+	print restaurant
 	# panggil search zomato
 	details_zomato = see_details_zomato(restaurant['name'])
 	# panggil search openrice
