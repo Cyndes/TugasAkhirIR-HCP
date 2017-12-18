@@ -16,8 +16,11 @@ def search_openrice(query):
     url = "id.openrice.com"
 
     #Getting number of pages
-    page = int(soup.find('div', class_="js-dishFilter").find('li').get('data-count'))
-    page = (page / 15) + 1
+    page = soup.find('div', class_="js-dishFilter").find('li').get('data-count')
+    if page:
+        page = (int(page) / 15) + 1
+    else:
+        page = 0
 
     #Getting all result to map
     search_result = {}

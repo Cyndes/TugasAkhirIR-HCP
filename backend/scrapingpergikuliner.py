@@ -22,7 +22,11 @@ def search_pergikuliner(query):
 	tmpsoup = BeautifulSoup(tmpcontent, 'html.parser')
 	pages = tmpsoup.find('h2', id='top-total-search-view').get_text().strip()
 	pattern = re.compile(r'[0-9]+')
-	pages = int(re.findall(pattern, pages)[1]) / 12
+	pages = re.findall(pattern, pages)[1]
+	if pages:
+		pages = ((int(pages)/12) / 15) + 1
+	else:
+		pages = 0
 
 	search_result = {}
 	if pages > 5:
