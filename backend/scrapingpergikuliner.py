@@ -37,7 +37,7 @@ def search_pergikuliner(query):
 		tmpcontent = requests.get("https://pergikuliner.com/restaurants?default_search=jakarta&page="+ str(count) +"&search_name_cuisine="+ query +"&search_place=", 
 			headers=headers).text
 		soup = BeautifulSoup(tmpcontent, 'html.parser')
-		for data, rat in zip(soup.find_all('div', class_="item-info"), soup.find_all('div', class_='item-rating-result')):
+		for data, rat, img in zip(soup.find_all('div', class_="item-info"), soup.find_all('div', class_='item-rating-result'), soup.find_all('img', class_='main-img')):
 			details = {}
 			name = data.find('h3', class_="item-name").get_text().strip()
 			alamat = data.find('p', class_="clearfix").find_all('span', class_='truncate')
@@ -46,6 +46,7 @@ def search_pergikuliner(query):
 			details['alamat'] = alamat
 			details['rating'] = round(rating * 2, 2)
 			details['review'] = 0
+			details['image'] = img.get('src')
 			search_result[name + " - " + re.sub('Mall | Mall|mall | mall', "", alamat.split(",")[0])] = details
 		count += 1
 	return search_result

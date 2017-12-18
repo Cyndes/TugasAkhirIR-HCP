@@ -1,20 +1,31 @@
 {% extends "header.html" %}
 {% block body %}
 
-		<table>
-			<tr>
-				<th>Name</th>
-				<th>Address</th>
-				<th>Rating</th>
-				<th>Review</th>
-			</tr>
+<h4 class="header left-align orange-text">Menampilkan hasil pencarian untuk: {{ resto }}</h4>
+
+		<ul>
 		{% for key, value in result.iteritems() %}
-		   <tr>
-		        <td> {{ key.split("-")[0] }} </td>
-		        <td> {{ value['alamat'] }} </td>
-		        <td> {{ value['rating'] }} </td>
-		        <td> {{ value['review'] }} </td>
-		   </tr>
+		<li>
+		<div class="row center">
+        	<div class="col s12">
+        		<div class="card horizontal">
+        			<div class="card-stacked">
+		              <div class="card-content left-align">
+		                <h5 class="col s3 red white-text right">  {{ value['rating'] }}</h5>
+		               <h5 class="black-text">{{ key.split("-")[0] }}</h5>
+		               <div class="valign-wrapper">
+		                 <i class="inline-icon material-icons black-text">location_on</i>
+		                 <h6 class="black-text">{{ value['alamat'] }}</h6>
+		               </div>
+		               <h6 class="black-text">{{ value['review'] }} Ulasan</h6>
+		              </div>
+		          </div>
+			</div>
+		</div>
+		</div>
+		</li>
+		<br/><br/>
 		{% endfor %}
-		</table>
+	</ul>
+		
 {% endblock %}

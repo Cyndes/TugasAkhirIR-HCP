@@ -1,15 +1,18 @@
 <!doctype html>
-<title>Kitabisa.com Campaign Success Predictor</title>
+<title>Restaurant Searcher for you!</title>
 <!-- Latest compiled and minified Boootstrap CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
   <!-- Optional bootstrap theme -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.min.css') }}">
+   <link rel="stylesheet" href="{{ url_for('static',filename='css/materialize.css') }}">
+   <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <body>
-    <div class="container-fluid">
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <h1 class="page-title"><a href="/">Food Search Ranking</a></h1>
+     <div id="index-banner" class="parallax-container">
+    <div class="section no-pad-bot">
+      <div class="container">
+        <br><br>
+              <h1 class="header center teal-text text-lighten-2">Restaurant Search Engine</h1>
               <br /><br />
 
   {% block body %}{% endblock %}
