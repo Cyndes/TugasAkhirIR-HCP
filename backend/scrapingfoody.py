@@ -143,6 +143,15 @@ def see_details_foody(name):
 	avg_rating = soup.find("div", class_="microsite-point-avg")
 	if avg_rating:
 		avg_rating = avg_rating.string.strip()
+	else:
+		avg_rating = 0
+
+	# review
+	review = soup.find("div", class_="microsite-review-count")
+	if review:
+		review = review.string.strip()
+	else:
+		review = 0
 
 	# facilities
 	facilities = []
@@ -191,6 +200,8 @@ def see_details_foody(name):
 	foody_details = {}
 	foody_details["name"] = name
 	foody_details["address"] = location
+	foody_details["rating_foody"] = avg_rating
+	foody_details["review_foody"] = review
 	foody_details["avg_cost"] = avg_cost
 	foody_details["facilities"] = facilities
 	foody_details["waktu_makan"] = waktu_makan
@@ -203,22 +214,9 @@ def see_details_foody(name):
 	foody_details["description"] = description
 	foody_details["recommended_menu"] = recommended_menu
 
-	# print "Nama Restoran: " + name 
-	# print "Alamat: " + location
-	# print "Average Cost: " + str(avg_cost)
-	# print "Rating: " + str(avg_rating)
-	# print "Fasilitas: " + str(facilities)
-	# print "Jam Operasional: " + waktu_makan
-	# print "Pemesanan Terakhir: " + pemesanan_terakhir
-	# print "Waktu Tunggu: " + waktu_tunggu
-	# print "Libur: " + libur
-	# print "Kategori: " + category
-	# print "Kapasitas: " + kapasitas
-	# print "Petunjuk Arah: " + petunjuk_arah
-	# print "Deskripsi: " + description
-	# print "Rekomendasi Menu: " + recommended_menu
+	print foody_details
 	return foody_details
 
-#restaurant = raw_input("Restaurants you want to find? ")
+restaurant = raw_input("Restaurants you want to find? ")
 #search_foody(restaurant)
-#see_details_foody(restaurant)
+see_details_foody(restaurant)
