@@ -37,10 +37,30 @@ def see_details_zomato(name):
 	restolist = json.loads(page.text)
 	data = restolist["restaurants"]
 
-	#for i in range(0, 20):
-	#	print data[i]["restaurant"]["name"] + " " + data[i]["restaurant"]["location"]["locality"] + " || rating: " + data[i]["restaurant"]["user_rating"]["aggregate_rating"];
+		print data[i]["restaurant"]["name"] + " " + data[i]["restaurant"]["location"]["locality"] + " || rating: " + data[i]["restaurant"]["user_rating"]["aggregate_rating"];
 
-	return data
+	details = {}
+	for i in range(0, 20):
+		if data[i]["restaurant"]["name"] == name.split("-")[0].strip():
+			details["name"] = data[i]["restaurant"]["name"]
+			details["address"] = data[i]["restaurant"]["location"]["address"]
+			details["rating"] = float(data[i]["restaurant"]["user_rating"]["aggregate_rating"])
+			details["review"] = int(data[i]["restaurant"]["user_rating"]["votes"])
+			details["avg_cost"] = data[i]["restaurant"]["average_cost_for_two"]
+			# details["facilities"] = ""
+			# details["waktu_makan"] = waktu_makan
+			# details["pemesanan_terakhir"] = ""
+			# details["waktu_tunggu"] = ""
+			# details["libur"] = ""
+			# details["category"] = category
+			# details["kapasitas"] = kapasitas
+			# details["petunjuk_arah"] = petunjuk_arah
+			# details["description"] = description
+			# details["recommended_menu"] = recommended_menu
+			details["cuisine"] = data[i]["restaurant"]["cuisines"]
+			# details["waktu_buka"] = waktu_buka
+			break
+	return details
 
 #content = page.text
 #soup = BeautifulSoup(content, 'html.parser')

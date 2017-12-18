@@ -67,7 +67,6 @@ def search_openrice(query):
 
 def see_details_openrice(name, location):
     # For accessing openrice detail from search hit
-    name = name.split('-')
     url = "id.openrice.com/en/jakarta/restaurants?what="+name[0].strip()+"&where="+name[1].strip()
     headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 6.0; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0' }
     r = requests.get("http://" +url, headers=headers)
@@ -85,61 +84,67 @@ def see_details_openrice(name, location):
     soup = BeautifulSoup(r.text, 'html.parser')
 
     #Taking name data
-    data = json.loads(soup.find('script', type='application/ld+json').text)
-    name = data['name'] #Save name
-    print name
+    # data = json.loads(soup.find('script', type='application/ld+json').text)
+    # name = data['name'] #Save name
+    # print name
 
-    cost = data['priceRange']   #Save average cost
-    pattern = re.compile(r'([0-9]+).([0-9]+)')
-    avg_cost = 0
-    for (ribuan, ratusan) in re.findall(pattern, cost):
-        avg_cost += int(ribuan+""+ratusan)
+    # cost = data['priceRange']   #Save average cost
+    # pattern = re.compile(r'([0-9]+).([0-9]+)')
+    # avg_cost = 0
+    # for (ribuan, ratusan) in re.findall(pattern, cost):
+    #     avg_cost += int(ribuan+""+ratusan)
 
-    avg_cost /= 2
-    print avg_cost
+    # avg_cost /= 2
+    # print avg_cost
 
-    jenis = soup.find('meta', property='og:description').get('content') #Save restaurant type
-    jenis_resto = []
-    pattern = re.compile(r'[a-zA-Z]+')
-    for x in re.findall(pattern, jenis):
-        jenis_resto.append(x)
+    # jenis = soup.find('meta', property='og:description').get('content') #Save restaurant type
+    # jenis_resto = []
+    # pattern = re.compile(r'[a-zA-Z]+')
+    # for x in re.findall(pattern, jenis):
+    #     jenis_resto.append(x)
 
-    def filterReviews(element):
-      return element != "reviews"
+    # def filterReviews(element):
+    #   return element != "reviews"
 
-    jenis_resto = filter(filterReviews, jenis_resto)
-    print jenis_resto
+    # jenis_resto = filter(filterReviews, jenis_resto)
+    # print jenis_resto
 
-    sign_dish = []
+    sign_dish = ""
     dish = soup.find('section', class_='signature-dishes-section')
     if dish:
         dish = dish.find('div', class_='slash-tags')
-        for sign_dishes in dish:
-            sign_dish.append(sign_dishes.string.strip())
+        for sign_dishes in dish[:-1]:
+            sign_dish += sign_dishes.string.strip() + ", "
+        sign_dish += dish[-1].string.strip()
 
-    sign_dish = filter(None, sign_dish)
-    print sign_dish
+    # script = soup.find('script', type='application/ld+json')
+    # if script:
+    #     data = json.loads(script.text)
 
-    script = soup.find('script', type='application/ld+json')
-    if script:
-        data = json.loads(script.text)
+    #     #Getting address data
+    #     data_add = data['address']
+    #     address = data_add['streetAddress']+" "+data_add['addressLocality']+" "+data_add['addressRegion']+" "+data_add['postalCode']
+    #     print address.encode("utf-8")
 
-        #Getting address data
-        data_add = data['address']
-        address = data_add['streetAddress']+" "+data_add['addressLocality']+" "+data_add['addressRegion']+" "+data_add['postalCode']
-        print address.encode("utf-8")
+    #     #Getting telephone
+    #     telephone = data['telephone']
+    #     print telephone.encode("utf-8")
 
-        #Getting telephone
-        telephone = data['telephone']
-        print telephone.encode("utf-8")
+    # facilities = []
+    # for avail_facil in soup.find_all('div', class_='condition-item'):
+    #     if avail_facil.find('span', class_='or-sprite-inline-block d_sr2_lhs_tick_desktop'):
+    #         facilities.append(avail_facil.find('span', class_='condition-name').string)
+    # print facilities
 
-    facilities = []
-    for avail_facil in soup.find_all('div', class_='condition-item'):
-        if avail_facil.find('span', class_='or-sprite-inline-block d_sr2_lhs_tick_desktop'):
-            facilities.append(avail_facil.find('span', class_='condition-name').string)
-    print facilities
+    capacity = soup.find('div', class_='more-info-section')
+    capacity = capacity.find('div', class_='content').string
+
 
     rating = soup.find('div', class_='header-score-details-left-score', itemprop='ratingValue')
     print rating
+
+    details['capacity'] = capacity
+    details['recommended_menu'] = sign_dish
+
     
 #print search_restaurant(restaurant)
