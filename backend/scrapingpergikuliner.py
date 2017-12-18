@@ -25,6 +25,8 @@ def search_pergikuliner(query):
 	pages = int(re.findall(pattern, pages)[1]) / 12
 
 	search_result = {}
+	if pages > 5:
+		pages = 5
 	count = 1
 	while count <= pages:
 		tmpcontent = requests.get("https://pergikuliner.com/restaurants?default_search=jakarta&page="+ str(count) +"&search_name_cuisine="+ query +"&search_place=", 

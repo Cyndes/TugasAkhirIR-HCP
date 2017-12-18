@@ -22,6 +22,8 @@ def search_openrice(query):
     #Getting all result to map
     search_result = {}
     count = 1
+    if page > 5:
+        page = 5
     while count <= page:
         url = "id.openrice.com/en/jakarta/restaurants?what="+query+"&page="+str(count)
         r = requests.get("http://" +url, headers=headers)

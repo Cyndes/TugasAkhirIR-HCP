@@ -42,6 +42,7 @@ def integrate(query):
 			result[key]['no_of_occurences'] += 1
 			result[key]['rating'] += value['rating']
 			result[key]['rating'] /= result[key]['no_of_occurences']
+			result[key]['rating'] = round(result[key]['rating'], 2)
 			result[key]['review'] += int(value['review'])
 		else:
 			result[key] = value

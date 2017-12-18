@@ -43,7 +43,10 @@ def search_foody(query):
 					details["rating"] = float(rating)
 				else:
 					details["rating"] = 0
-				details["review"] = review
+				if review:
+					details["review"] = int(review)
+				else:
+					details["review"] = 0				
 				details["alamat"] = alamat
 
 				search_results[fixed_name] = details 
@@ -71,7 +74,10 @@ def search_foody(query):
 				details["rating"] = float(rating)
 			else:
 				details["rating"] = 0
-			details["review"] = review
+			if review:
+				details["review"] = int(review)
+			else:
+				details["review"] = 0
 			details["alamat"] = alamat
 
 			search_results[fixed_name] = details 
@@ -98,7 +104,10 @@ def search_foody(query):
 				details["rating"] = float(rating)
 			else:
 				details["rating"] = 0
-			details["review"] = review
+			if review:
+				details["review"] = review
+			else:
+				details["review"] = 0
 			details["alamat"] = alamat
 
 			search_results[fixed_name] = details 
