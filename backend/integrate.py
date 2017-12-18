@@ -38,9 +38,11 @@ def integrate(query):
 			result[key]['rating'] += value['rating']
 			result[key]['review'] += int(value['review'])
 			result[key]['foody_name'] = value['foody_name']
+			result[key]['url'] = "/details?name=" + key + "&fd=" + value['foody_name']
 		else:
 			result[key] = value
 			result[key]['no_of_occurences'] = 1
+			result[key]['url'] = "/details?name=" + key + "&fd="
 
 	for key,value in result_pergikuliner.items():
 		if key in result.keys():
@@ -61,7 +63,7 @@ def integrate(query):
 	return od
 
 
-def details(name, foody_name):
+def integrate_details(name, foody_name):
 	# panggil search zomato
 	details_zomato = see_details_zomato(name)
 	# panggil search foody
@@ -81,7 +83,6 @@ def details(name, foody_name):
 	result["rating_openrice"] = details_openrice["rating"]
 	result["review_zomato"] = details_zomato["review"]
 	result["review_foody"] = details_foody["review"]
-	result["review_pergikuliner"] = details_pergikuliner["review"]
 	result["review_openrice"] = details_openrice["review"]
 	result["cuisine"] = details_zomato["cuisine"]
 	result["payment"] = details_pergikuliner["payment"]

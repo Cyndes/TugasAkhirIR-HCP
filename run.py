@@ -3,7 +3,7 @@ app = Flask(__name__,
             static_folder = "flaskvue/dist/static",
             template_folder = "flaskvue/dist")
 import requests
-from backend.integrate import integrate, details
+from backend.integrate import integrate, integrate_details
 @app.route('/')
 def index():
     return render_template("index.html")
@@ -19,7 +19,7 @@ def search():
 def details():
 	name = request.args.get('name', None)
 	foody_name = request.args.get('fd', None)
-	response = details(name, foody_name)
+	response = integrate_details(name, foody_name)
 	return render_template("details.html")
 
 if __name__ == "__main__":

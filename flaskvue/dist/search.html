@@ -7,26 +7,22 @@
 		{% for key, value in result.iteritems() %}
 		<li>
 		<div class="row center">
-        	<div class="col s12">
-        		<form id="detail" action="/details" method="GET">
-        			<a href="#" onclick="document.getElementById('detail').submit();">
-		        		<div class="card horizontal">
-		        			<div class="card-stacked">
-				              <div class="card-content left-align">
-				                <h5 class="col s3 red white-text right">  {{ value['rating'] }}</h5>
-				               <h5 class="black-text">{{ key.split("-")[0] }}</h5>
-				               <div class="valign-wrapper">
-				                 <i class="inline-icon material-icons black-text">location_on</i>
-				                 <h6 class="black-text">{{ value['alamat'] }}</h6>
-				               </div>
-				               <h6 class="black-text">{{ value['review'] }} Ulasan</h6>
-				              </div>
-				          </div>
-				          <input type="hidden" name="name" value="{{ key }}" />
-				          <input type="hidden" name="fd" value="{{ value['foody_name'] }}" />
-						</div>
-					</a>
-				</form>
+        	<div class="col s12">        		
+    			<a href="{{ value['url'] }}">
+	        		<div class="card horizontal">
+	        			<div class="card-stacked">
+			              <div class="card-content left-align">
+			                <h5 class="col s3 red white-text right">  {{ value['rating'] }}</h5>
+			               <h5 class="black-text">{{ key.split("-")[0] }}</h5>
+			               <div class="valign-wrapper">
+			                 <i class="inline-icon material-icons black-text">location_on</i>
+			                 <h6 class="black-text">{{ value['alamat'] }}</h6>
+			               </div>
+			               <h6 class="black-text">{{ value['review'] }} Ulasan</h6>
+			              </div>
+			          </div>
+					</div>
+				</a>
 		</div>
 		</div>
 		</li>

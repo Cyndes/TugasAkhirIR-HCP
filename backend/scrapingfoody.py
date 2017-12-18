@@ -214,9 +214,4 @@ def see_details_foody(name):
 	foody_details["description"] = description
 	foody_details["recommended_menu"] = recommended_menu
 
-	print foody_details
 	return foody_details
-
-restaurant = raw_input("Restaurants you want to find? ")
-#search_foody(restaurant)
-see_details_foody(restaurant)
