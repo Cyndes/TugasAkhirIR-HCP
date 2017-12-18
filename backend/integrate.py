@@ -60,15 +60,15 @@ def integrate(query):
 	od = OrderedDict(sorted(result.items(), key=lambda x: x[1]['score'], reverse=True))
 	return od
 
-def details(restaurant):
+def details(name, foody_name):
 	# panggil search zomato
-	details_zomato = see_details_zomato(restaurant['name'])
+	details_zomato = see_details_zomato(name)
 	# panggil search openrice
-	details_openrice = see_details_openrice(restaurant['name'])
+	details_openrice = see_details_openrice(name)
 	# panggil search foody
-	details_foody = see_details_foody(restaurant['foody_name'])
+	details_foody = see_details_foody(foody_name)
 	# panggil search pergikuliner
-	details_pergikuliner = see_details_pergikuliner(restaurant['name'])
+	details_pergikuliner = see_details_pergikuliner(name)
 
 	print "details_zomato"
 	print details_zomato
@@ -83,7 +83,7 @@ def details(restaurant):
 	print details_pergikuliner
 	print	
 
-query = raw_input("Restaurants you want to find? ")
-# integrate(query)
-restaurant = {"name" : "kfc lenteng agung", "foody_name" : "KFC - Lenteng Agung", "alamat" : "Jl. Lenteng Agung, No. 23"}
-details(restaurant)
+# query = raw_input("Restaurants you want to find? ")
+# # integrate(query)
+# restaurant = {"name" : "kfc lenteng agung", "foody_name" : "KFC - Lenteng Agung", "alamat" : "Jl. Lenteng Agung, No. 23"}
+# details(restaurant)
