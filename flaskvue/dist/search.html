@@ -1,0 +1,20 @@
+{% extends "header.html" %}
+{% block body %}
+
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Address</th>
+				<th>Rating</th>
+				<th>Review</th>
+			</tr>
+		{% for key, value in result.iteritems() %}
+		   <tr>
+		        <td> {{ key.split("-")[0] }} </td>
+		        <td> {{ value['alamat'] }} </td>
+		        <td> {{ value['rating'] }} </td>
+		        <td> {{ value['review'] }} </td>
+		   </tr>
+		{% endfor %}
+		</table>
+{% endblock %}

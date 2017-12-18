@@ -2,6 +2,7 @@ from scrapingzomato import search_zomato
 from scrapingopenrice import search_openrice
 from scrapingfoody import search_foody
 from scrapingpergikuliner import search_pergikuliner
+from collections import OrderedDict
 
 def integrate(query):
 	# panggil search zomato
@@ -52,7 +53,8 @@ def integrate(query):
 		result[key]['score'] = round((0.4 * result[key]['rating']) + (0.6 * int(result[key]['review'])), 2)
 		result[key]['score'] = round(result[key]['score'] * (result[key]['no_of_occurences'] / 4.0), 2)
 
-	return result
+	od = OrderedDict(sorted(result.items(), key=lambda x: x[1]['score'], reverse=True))
+	return od
 
 # restaurant = raw_input("Restaurants you want to find? ")
 # integrate(restaurant)
