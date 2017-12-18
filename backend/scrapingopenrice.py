@@ -58,6 +58,8 @@ def search_openrice(query):
                 ok = review - good + bad
                 rating = round(((7.5 * good) + (5 * ok) + (2.5 * bad))/review, 1)
             details['rating'] = rating
+            image = a.find('div', class_='pois-restaurant-list-cell-content-left-restaurant-photo').get('style').split("'")[1]
+            details['image'] = image
             search_result[name + " - " + alamat] = details
 
         count = count + 1

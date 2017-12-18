@@ -23,6 +23,7 @@ def search_zomato(query):
 		details['alamat'] = data[i]["restaurant"]["location"]["address"]
 		details['review'] = int(data[i]["restaurant"]["user_rating"]["votes"])
 		details['rating'] = float(data[i]["restaurant"]["user_rating"]["aggregate_rating"])
+		details['image'] = data[i]["restaurant"]["featured_image"]
 		search_result[data[i]["restaurant"]["name"] + " - " + re.sub('Mall | Mall|mall | mall', "", details['alamat'].split(",")[0])] = details
 	return search_result
 
