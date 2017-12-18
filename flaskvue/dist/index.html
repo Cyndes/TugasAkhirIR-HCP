@@ -1,1 +1,26 @@
-<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>irmamam</title><link href=/static/css/app.bf9a994c72151daa5e919b0f3ccdc900.css rel=stylesheet></head><body><div id=app></div><script type=text/javascript src=/static/js/manifest.11665955cc132ce7e5ce.js></script><script type=text/javascript src=/static/js/vendor.98792a5c1c995825a383.js></script><script type=text/javascript src=/static/js/app.25385b7f49502610a271.js></script></body></html>
+{% extends "header.html" %}
+{% block body %}
+
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+            <div class="form-wrapper mt40">
+               <form action="/search" method="GET">
+                <div class="form-row">
+                  <span>Restaurant Name</span> <input name="restaurant" type="text" value="{{thePassedValue}}" class="form-control" required/>
+                </div>
+
+              </form>
+
+              <h4> </h4>
+              <h4>What is this?</h4>
+              Kitabisa.com Campaign Success Predictor will help you find out the statistics of your campaign and whether you will reach your donation target.<br /><br />
+
+              <h4>How can I reach my donation target?</h4>
+              Ever wonder how you can improve your donation target? Do longer strories, more frequent updates, link shares matter? Find out how you can reach your donation target <a href='facts'>here</a>.<br /><br />
+
+
+          </div>
+        </div>
+        </div>
+</html>
+{% endblock %}

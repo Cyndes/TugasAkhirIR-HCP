@@ -51,7 +51,7 @@ def integrate(query):
 		result[key]['score'] = round((0.4 * result[key]['rating']) + (0.6 * int(result[key]['review'])), 2)
 		result[key]['score'] = round(result[key]['score'] * (result[key]['no_of_occurences'] / 4.0), 2)
 
-	print result
+	return result
 
-restaurant = raw_input("Restaurants you want to find? ")
-integrate(restaurant)
+# restaurant = raw_input("Restaurants you want to find? ")
+# integrate(restaurant)
