@@ -80,24 +80,15 @@ def see_details_openrice(name):
 
     search = r.text
     soup = BeautifulSoup(search, 'html.parser')
-    url = "http://id.openrice.com"
+    url = "id.openrice.com"
     data = soup.find('li', class_='pois-restaurant-list-cell')
     if not data:
         return "N/A"
-    url += data.find('a').get('href')
-    soup = BeautifulSoup (r.text, 'html.parser')
     #Taking static data from the first result
     url += soup.find('h2', class_='title-name').find('a').get('href')
-    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
-    r = ''
-    while r == '':
-        try:
-            r = requests.get("http://" +url, headers=headers)
-        except:
-            time.sleep(5)
-            continue
+    # head = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+    r = requests.get("http://"+url, headers=headers)
     soup = BeautifulSoup(r.text, 'html.parser')
-
     #Taking name data
     # data = json.loads(soup.find('script', type='application/ld+json').text)
     # name = data['name'] #Save name
@@ -124,13 +115,17 @@ def see_details_openrice(name):
     # jenis_resto = filter(filterReviews, jenis_resto)
     # print jenis_resto
 
+    dishes = []
     sign_dish = ""
     dish = soup.find('section', class_='signature-dishes-section')
     if dish:
         dish = dish.find('div', class_='slash-tags')
-        for sign_dishes in dish[:-1]:
-            sign_dish += sign_dishes.string.strip() + ", "
-        sign_dish += dish[-1].string.strip()
+        for sign_dishes in dish:
+            dishes.append(sign_dishes.string.strip())
+        dishes = filter(None, dishes)
+        for d in dishes[:-1]:
+            sign_dish += d + ", "
+        sign_dish += dishes[-1]
 
     # script = soup.find('script', type='application/ld+json')
     # if script:
@@ -152,14 +147,24 @@ def see_details_openrice(name):
     # print facilities
 
     capacity = soup.find('div', class_='more-info-section')
-    capacity = capacity.find('div', class_='content').string
-
-
+    capacity = capacity.find_all('div', class_='title')
+    for c in capacity:
+        if c.string == "Number of Seats":
+            capacity = c.next_sibling.next_sibling.string
+            break
+    review = 0
     rating = soup.find('div', class_='header-score-details-left-score', itemprop='ratingValue')
-    print rating
-
+    if rating:
+        rating = rating.string.strip()
+        review = re.findall(r'[0-9]+', soup.find('div', class_='section-title').find('div', class_='title').string)[0]
+    else:
+        rating = 0
+    details = {}
+    details['rating'] = rating
+    details['review'] = review
     details['capacity'] = capacity
     details['recommended_menu'] = sign_dish
+    return details
 
     
 #print search_restaurant(restaurant)

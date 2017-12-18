@@ -69,20 +69,42 @@ def details(name, foody_name):
 	# panggil search pergikuliner
 	details_pergikuliner = see_details_pergikuliner(name)
 	# panggil search openrice
-	# details_openrice = see_details_openrice(name)
+	details_openrice = see_details_openrice(name)
 
-	print "details_zomato"
-	print details_zomato
-	print
-	print "details_openrice"
+	result = {}
+	result["name"] = details_zomato["name"]
+	result["telephone"] = details_pergikuliner["telephone"]
+	result["address"] = details_zomato["address"]
+	result["rating_zomato"] = details_zomato["rating"]
+	result["rating_foody"] = details_foody["rating"]
+	result["rating_pergikuliner"] = details_pergikuliner["rating"]
+	result["rating_openrice"] = details_openrice["rating"]
+	result["review_zomato"] = details_zomato["review"]
+	result["review_foody"] = details_foody["review"]
+	result["review_pergikuliner"] = details_pergikuliner["review"]
+	result["review_openrice"] = details_openrice["review"]
+	result["cuisine"] = details_zomato["cuisine"]
+	result["payment"] = details_pergikuliner["payment"]
+	result["opening_hours"] = details_pergikuliner["opening_hours"]
+	result["avg_cost"] = details_zomato["avg_cost"]
+	result["facilities"] = details_foody["facilities"] + details_pergikuliner["facilities"]
+	result["recommended_menu"] = details_openrice["recommended_menu"] + ", " + details_foody["recommended_menu"]
+	result["capacity"] = details_openrice["capacity"]
+
+	return result
+
+	# print "details_zomato"
+	# print details_zomato
+	# print
+	# print "details_openrice"
 	# print details_openrice
-	print
-	print "details_foody"
-	print details_foody
-	print
-	print "details_pergikuliner"
-	print details_pergikuliner
+	# print
+	# print "details_foody"
+	# print details_foody
+	# print
+	# print "details_pergikuliner"
+	# print details_pergikuliner
 # query = raw_input("Restaurants you want to find? ")
 # # integrate(query)
-restaurant = {"name" : "Sushi Tei - Central Park", "foody_name" : "Sushi Tei - Central Park", "alamat" : "Jl. Lenteng Agung, No. 23"}
-details(restaurant["name"], restaurant["foody_name"])
+# restaurant = {"name" : "Sushi Tei - Central Park", "foody_name" : "Sushi Tei - Central Park", "alamat" : "Jl. Lenteng Agung, No. 23"}
+# details(restaurant["name"], restaurant["foody_name"])
