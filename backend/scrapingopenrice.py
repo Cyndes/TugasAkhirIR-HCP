@@ -2,6 +2,7 @@ import json
 import re
 import requests
 from bs4 import BeautifulSoup
+import time
 #restaurant = raw_input("Restaurants you want to find? ")
 
 
@@ -65,11 +66,18 @@ def search_openrice(query):
         count = count + 1
     return search_result
 
-def see_details_openrice(name, location):
+def see_details_openrice(name):
     # For accessing openrice detail from search hit
-    url = "id.openrice.com/en/jakarta/restaurants?what="+name[0].strip()+"&where="+name[1].strip()
+    url = "id.openrice.com/en/jakarta/restaurants?what="+name.split("-")[0].strip()+"&where="+name.split("-")[1].strip()
     headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 6.0; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0' }
-    r = requests.get("http://" +url, headers=headers)
+    r = ''
+    while r == '':
+        try:
+            r = requests.get("http://" +url, headers=headers)
+        except:
+            time.sleep(5)
+            continue
+
     search = r.text
     soup = BeautifulSoup(search, 'html.parser')
     url = "http://id.openrice.com"
@@ -80,7 +88,14 @@ def see_details_openrice(name, location):
     soup = BeautifulSoup (r.text, 'html.parser')
     #Taking static data from the first result
     url += soup.find('h2', class_='title-name').find('a').get('href')
-    r = requests.get("http://"+url, headers=headers)
+    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+    r = ''
+    while r == '':
+        try:
+            r = requests.get("http://" +url, headers=headers)
+        except:
+            time.sleep(5)
+            continue
     soup = BeautifulSoup(r.text, 'html.parser')
 
     #Taking name data

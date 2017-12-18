@@ -60,8 +60,8 @@ def see_details_pergikuliner(name):
 	tmppage = requests.get(tmpurl, headers=headers)
 	tmpcontent = tmppage.text
 	soup = BeautifulSoup(tmpcontent, 'html.parser')
-	if "Hasil cari" in tmpsoup.title.string:
-		links = =soup.find_all('a', href=True)
+	if "Hasil cari" in soup.title.string:
+		links = soup.find_all('a', href=True)
 		url = "https://pergikuliner.com" + links[33]['href']
 		page = requests.get(url, headers=headers)
 		content = page.text
@@ -93,15 +93,14 @@ def see_details_pergikuliner(name):
 	# print "jam buka " + openhours;
 	# print "pembayaran " + payment['content'];
 
-	print "punya fasilitas:";
 	facilities = []
 	for f in hasfacilities:
-	   print facilities.append(f.string);
-	print "gapunya fasilitas:";
+	   facilities.append(f.string);
 	nofacilities = []
-	for nf in notfacilities:
-	   print notfacilities.append(nf.string);
+	# for nf in notfacilities:
+	#    notfacilities.append(nf.string);
 
+	details = {}
 	# details["name"] = name.split("-")[0].strip()
 	# details["address"] = address + " " + province + " " + city + " " + street
 	details["rating"] = float(ratingOverall)
@@ -122,7 +121,7 @@ def see_details_pergikuliner(name):
 	details["opening_hours"] = openhours
 	details["payment"] = payment['content']
 	details["facilities"] = facilities
-	details["notfacilities"] = nofacilities
+	# details["notfacilities"] = nofacilities
 	return details
 
 	#for m in recommenu:

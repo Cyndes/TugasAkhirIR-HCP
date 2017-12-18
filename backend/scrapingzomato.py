@@ -37,7 +37,7 @@ def see_details_zomato(name):
 	restolist = json.loads(page.text)
 	data = restolist["restaurants"]
 
-		print data[i]["restaurant"]["name"] + " " + data[i]["restaurant"]["location"]["locality"] + " || rating: " + data[i]["restaurant"]["user_rating"]["aggregate_rating"];
+		# print data[i]["restaurant"]["name"] + " " + data[i]["restaurant"]["location"]["locality"] + " || rating: " + data[i]["restaurant"]["user_rating"]["aggregate_rating"];
 
 	details = {}
 	for i in range(0, 20):

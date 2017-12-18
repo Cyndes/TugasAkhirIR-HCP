@@ -64,27 +64,25 @@ def integrate(query):
 def details(name, foody_name):
 	# panggil search zomato
 	details_zomato = see_details_zomato(name)
-	# panggil search openrice
-	details_openrice = see_details_openrice(name)
 	# panggil search foody
 	details_foody = see_details_foody(foody_name)
 	# panggil search pergikuliner
 	details_pergikuliner = see_details_pergikuliner(name)
+	# panggil search openrice
+	# details_openrice = see_details_openrice(name)
 
 	print "details_zomato"
 	print details_zomato
 	print
 	print "details_openrice"
-	print details_openrice
+	# print details_openrice
 	print
 	print "details_foody"
 	print details_foody
 	print
 	print "details_pergikuliner"
 	print details_pergikuliner
-	print	
-
 # query = raw_input("Restaurants you want to find? ")
 # # integrate(query)
-# restaurant = {"name" : "kfc lenteng agung", "foody_name" : "KFC - Lenteng Agung", "alamat" : "Jl. Lenteng Agung, No. 23"}
-# details(restaurant)
+restaurant = {"name" : "Sushi Tei - Central Park", "foody_name" : "Sushi Tei - Central Park", "alamat" : "Jl. Lenteng Agung, No. 23"}
+details(restaurant["name"], restaurant["foody_name"])
