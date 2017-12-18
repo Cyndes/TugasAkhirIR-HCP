@@ -20,9 +20,14 @@ def search_pergikuliner(query):
 	tmppage = requests.get(tmpurl, headers=headers)
 	tmpcontent = tmppage.text
 	tmpsoup = BeautifulSoup(tmpcontent, 'html.parser')
-	pages = tmpsoup.find('h2', id='top-total-search-view').get_text().strip()
-	pattern = re.compile(r'[0-9]+')
-	pages = int(re.findall(pattern, pages)[1]) / 12
+	pages = tmpsoup.find('h2', id='top-total-search-view')
+	if pages:
+		pages = pages.get_text().strip()
+		pattern = re.compile(r'[0-9]+')
+		pages = re.findall(pattern, pages)[1]
+		pages = ((int(pages)/12) / 15) + 1
+	else:
+		pages = 0
 
 	search_result = {}
 	if pages > 5:
@@ -32,7 +37,7 @@ def search_pergikuliner(query):
 		tmpcontent = requests.get("https://pergikuliner.com/restaurants?default_search=jakarta&page="+ str(count) +"&search_name_cuisine="+ query +"&search_place=", 
 			headers=headers).text
 		soup = BeautifulSoup(tmpcontent, 'html.parser')
-		for data, rat in zip(soup.find_all('div', class_="item-info"), soup.find_all('div', class_='item-rating-result')):
+		for data, rat, img in zip(soup.find_all('div', class_="item-info"), soup.find_all('div', class_='item-rating-result'), soup.find_all('img', class_='main-img')):
 			details = {}
 			name = data.find('h3', class_="item-name").get_text().strip()
 			alamat = data.find('p', class_="clearfix").find_all('span', class_='truncate')
@@ -41,12 +46,13 @@ def search_pergikuliner(query):
 			details['alamat'] = alamat
 			details['rating'] = round(rating * 2, 2)
 			details['review'] = 0
+			details['image'] = img.get('src')
 			search_result[name + " - " + re.sub('Mall | Mall|mall | mall', "", alamat.split(",")[0])] = details
 		count += 1
 	return search_result
 
 
-def see_details(name):	
+def see_details_pergikuliner(name):	
 	#print "inputnya sekarang jadi " + r_name
 	#url = "https://pergikuliner.com/restaurants?utf8=✓&search_place=&default_search=Jakarta&search_name_cuisine=cafe"
 	tmpurl = ("https://pergikuliner.com/restaurants?utf8=✓&search_place=&default_search=&search_name_cuisine={}".format(r_name))

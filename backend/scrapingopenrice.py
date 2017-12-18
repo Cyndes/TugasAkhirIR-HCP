@@ -16,8 +16,11 @@ def search_openrice(query):
     url = "id.openrice.com"
 
     #Getting number of pages
-    page = int(soup.find('div', class_="js-dishFilter").find('li').get('data-count'))
-    page = (page / 15) + 1
+    page = soup.find('div', class_="js-dishFilter").find('li').get('data-count')
+    if page:
+        page = (int(page) / 15) + 1
+    else:
+        page = 0
 
     #Getting all result to map
     search_result = {}
@@ -55,12 +58,14 @@ def search_openrice(query):
                 ok = review - good + bad
                 rating = round(((7.5 * good) + (5 * ok) + (2.5 * bad))/review, 1)
             details['rating'] = rating
+            image = a.find('div', class_='pois-restaurant-list-cell-content-left-restaurant-photo').get('style').split("'")[1]
+            details['image'] = image
             search_result[name + " - " + alamat] = details
 
         count = count + 1
     return search_result
 
-def see_details(name):
+def see_details_openrice(name, location):
     # For accessing openrice detail from search hit
     name = name.split('-')
     url = "id.openrice.com/en/jakarta/restaurants?what="+name[0].strip()+"&where="+name[1].strip()
