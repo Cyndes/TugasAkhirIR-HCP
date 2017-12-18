@@ -93,19 +93,3 @@ def integrate_details(name, foody_name):
 	result["capacity"] = details_openrice["capacity"]
 
 	return result
-
-	# print "details_zomato"
-	# print details_zomato
-	# print
-	# print "details_openrice"
-	# print details_openrice
-	# print
-	# print "details_foody"
-	# print details_foody
-	# print
-	# print "details_pergikuliner"
-	# print details_pergikuliner
-# query = raw_input("Restaurants you want to find? ")
-# # integrate(query)
-# restaurant = {"name" : "Sushi Tei - Central Park", "foody_name" : "Sushi Tei - Central Park", "alamat" : "Jl. Lenteng Agung, No. 23"}
-# details(restaurant["name"], restaurant["foody_name"])
