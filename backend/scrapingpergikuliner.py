@@ -52,17 +52,17 @@ def search_pergikuliner(query):
 	return search_result
 
 
-def see_details_pergikuliner(name):	
+def see_details_pergikuliner(name, address):	
 	#print "inputnya sekarang jadi " + r_name
 	#url = "https://pergikuliner.com/restaurants?utf8=✓&search_place=&default_search=Jakarta&search_name_cuisine=cafe"
-	tmpurl = ("https://pergikuliner.com/restaurants?search_place="+ name.split("-")[1].strip() +"&default_search=&search_name_cuisine="+ name.split("-")[0].strip())
+	tmpurl = ("https://pergikuliner.com/restaurants?search_place="+ address +"&default_search=&search_name_cuisine="+ name.split("-")[0].strip())
 	headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 6.0; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0' }
 	tmppage = requests.get(tmpurl, headers=headers)
 	tmpcontent = tmppage.text
 	soup = BeautifulSoup(tmpcontent, 'html.parser')
 	if "Hasil cari" in soup.title.string:
 		links = soup.find_all('a', href=True)
-		url = "https://pergikuliner.com" + links[33]['href']
+		url = "http://pergikuliner.com" + links[33]['href']
 		page = requests.get(url, headers=headers)
 		content = page.text
 		soup = BeautifulSoup(content, 'html.parser')

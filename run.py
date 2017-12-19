@@ -19,7 +19,8 @@ def search():
 def details():
 	name = request.args.get('name', None)
 	foody_name = request.args.get('fd', None)
-	response = integrate_details(name, foody_name)
+	address = request.args.get('addr', None)
+	response = integrate_details(name, foody_name, address)
 	return render_template("details.html")
 
 if __name__ == "__main__":
