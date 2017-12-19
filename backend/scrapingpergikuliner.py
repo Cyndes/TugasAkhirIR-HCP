@@ -61,6 +61,8 @@ def see_details_pergikuliner(name, address):
 	tmpcontent = tmppage.text
 	soup = BeautifulSoup(tmpcontent, 'html.parser')
 	if "Hasil cari" in soup.title.string:
+		if "0" in soup.find('h2', id='top-total-search-view').string:
+			return {'rating' : 0, 'telephone' : '-', 'facilities' : '', 'opening_hours': '', 'payment': ''} 
 		links = soup.find_all('a', href=True)
 		url = "http://pergikuliner.com" + links[33]['href']
 		page = requests.get(url, headers=headers)

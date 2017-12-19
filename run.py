@@ -21,7 +21,7 @@ def details():
 	foody_name = request.args.get('fd', None)
 	address = request.args.get('addr', None)
 	response = integrate_details(name, foody_name, address)
-	return render_template("details.html")
+	return render_template("details.html", value=response)
 
 if __name__ == "__main__":
 	app.run()

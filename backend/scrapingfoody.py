@@ -14,7 +14,6 @@ def search_foody(query):
 	url = "www.foody.id"
 
 	search_results = {}
- 	details = {}
 
 	for food in soup.find_all('div', class_="row-view-right"):
 		name = food.find('a').string.strip()
@@ -28,6 +27,7 @@ def search_foody(query):
 			tes = re.search('{.*};', tes).group(0)
 			data = json.loads(tes[0:len(str(tes))-1])
 			
+			details = {}
 			for item in data['Items']:
 				name = item['Name']
 				alamat = item['Address']
@@ -50,9 +50,10 @@ def search_foody(query):
 					details["review"] = 0				
 				details["alamat"] = alamat
 				details["image"] = image
-
+		
 				search_results[fixed_name] = details 
 		elif " - " in name:
+			details = {}
 			alamat = food.find('span', "").find('span', "").string
 			rating = food.find('div', class_="point highlight-text")
 			image = food.findPreviousSiblings()[0].find("img").get("src")
@@ -80,6 +81,7 @@ def search_foody(query):
 
 			search_results[fixed_name] = details 
 		else:
+			details = {}
 			alamat = food.find('span', "").find('span', "").string
 			image = food.findPreviousSiblings()[0].find("img").get("src")
 			rating = food.find('div', class_="point highlight-text")
@@ -101,6 +103,7 @@ def search_foody(query):
 			else:
 				details["review"] = 0
 			details["alamat"] = alamat
+			details["image"] = image
 
 			search_results[fixed_name] = details 
 	return search_results

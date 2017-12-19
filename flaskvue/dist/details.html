@@ -33,7 +33,9 @@
             </div>
             <div class="card-content">
               <div class="card-content left-align">
-                <h5 class="col s2 teal accent-3 white-text right-align right"><i class="inline-icon small material-icons black-text">star</i> 9/10</h5>
+                <h5 class="col s2 teal accent-3 white-text right-align right"><i class="inline-icon small material-icons black-text">star</i> {{ value["rating_zomato"] }} Zomato</h5>
+                <h5 class="col s2 teal accent-3 white-text right-align right"><i class="inline-icon small material-icons black-text">star</i> {{ value["rating_openrice"] }} OpenRice</h5>
+                <h5 class="col s2 teal accent-3 white-text right-align right"><i class="inline-icon small material-icons black-text">star</i> {{ value["rating_pergikuliner"] }} PergiKuliner</h5>
                <div class="row">
 
                  <h4 class="black-text">{{ value["name"] }}</h4>
@@ -42,26 +44,28 @@
                <div class="valign-wrapper">
                  <i class="inline-icon material-icons black-text">location_on</i>
 
-                 <h5 class="black-text">Alamat restoran</h6>
+                 <h5 class="black-text">{{ value["address"] }}</h6>
                </div>
                <br/>
-               <h6 class="black-text">X ulasan</h6>
-              <h6>Menu andalan: </h6>
+               <h6 class="black-text">{{ value["review_zomato"] }} ulasan Zomato</h6>
+               <h6 class="black-text">{{ value["review_openrice"] }} ulasan OpenRice</h6>
+              <h6>Menu andalan:</h6>
+              <h6> {{ value["recommended_menu"] }} </h6>
               <h6>Melayani Pembayaran:</h6>
-              <h6>Kartu kredit, was, wes, woss</h6>
+              <h6>{{ value["payment"] }}</h6>
               <br/><br/>
 
               <div class="row">
                 <div class="col s6">
                   <h5 class="black-text">No Telepon</h5>
-                  <h4>021 0293029-0</h4>
+                  <h4> {{ value["telephone"] }} </h4>
                   <h5 class="black-text">Rata-rata Harga</h5>
-                  <h4>200.000 - 300.0000 / 2 orang</h4>
+                  <h4> {{ value["avg_cost"] }} </h4>
                 
                 </div>
                 <div class="col s4 right right-align">
                   <h5 class="black-text">Jam Buka</h5>
-                  <h4>Senin - Minggu 16:00 - 00:00</h4>
+                  <h4> {{ value["opening_hours"] }} </h4>
                 </div>  
               </div>
 
@@ -71,9 +75,11 @@
               <div class="row">
                 <div class="left">
                   <ul>
+                    {% for i in value["facilities"] %}
                     <li>
-                      
+                      {{ i }}
                     </li>
+                    {% endfor %}
                   </ul>
                 </div>
                 <div class="right">
