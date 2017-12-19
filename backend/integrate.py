@@ -49,14 +49,14 @@ def integrate(query):
 		if key in result.keys():
 			result[key]['no_of_occurences'] += 1
 			result[key]['rating'] += value['rating']
-			result[key]['rating'] /= result[key]['no_of_occurences']
-			result[key]['rating'] = round(result[key]['rating'], 2)
 			result[key]['review'] += int(value['review'])
 		else:
 			result[key] = value
 			result[key]['no_of_occurences'] = 1
 
 	for key in result:
+		result[key]['rating'] /= result[key]['no_of_occurences']
+		result[key]['rating'] = round(result[key]['rating'], 2)
 		result[key]['score'] = round((0.4 * result[key]['rating']) + (0.6 * int(result[key]['review'])), 2)
 		result[key]['score'] = round(result[key]['score'] * (result[key]['no_of_occurences'] / 4.0), 2)
 
